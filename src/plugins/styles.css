@@ -1,0 +1,57 @@
+* {
+    box-sizing: border-box;
+}
+
+.v-btn--plain:not(.v-btn--active):not(.v-btn--loading):not(:focus):not(:hover) .v-btn__content {
+    opacity: 1;
+}
+
+.button {
+    color: white !important;
+    transition: 0.5s;
+    text-transform: unset;
+}
+
+.wrapper-button {
+    background-color: unset !important;
+    border: solid 1px white;
+}
+.wrapper-button:hover {
+    background-color: rgb(255, 255, 255) !important;
+    color: black !important;
+}
+.v-dialog {
+    border-radius: 30px !important;
+    width: 40%;
+}
+
+.inputs-container__input .v-input__slot {
+    border: 2px solid #DFE3E6;
+}
+
+.inputs-container__input .v-input__slot:hover {
+    border-color: black;
+}
+
+.inputs-container__footer-button {
+    margin-top: 24px;
+    background: linear-gradient(255.35deg, #DC3131 0.83%, rgba(255, 79, 79, 0) 108.93%), #FF5E56 !important;
+    font-weight: 400;
+    box-shadow: 0px 0px 24px rgba(234, 0, 41, 0.33);
+}
+
+.inputs-container__footer-button:hover {
+    background: #EA0029 !important;
+}
+
+@media screen and (max-width: 1264px) {
+    .v-dialog {
+        width: 60%;
+    }
+}
+@media screen and (max-width: 600px) {
+    .v-dialog {
+        width: 100%;
+        border-radius: unset !important;
+    }
+}
