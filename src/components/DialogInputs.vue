@@ -25,13 +25,13 @@
         <div class="inputs-container__decreasing">
             <span>Что уменьшаем?</span>
             <div class="inputs-container__chips-block">
-                <span @click="isActive = !isActive">
+                <span @click="isActive = false">
                     <Chip 
                         :text="'Платеж'"
                         :active="isActive"
                     /> 
                 </span>
-                <span @click="isActive = !isActive">
+                <span @click="isActive = true">
                     <Chip 
                         :text="'Срок'"
                         :active="!isActive"
