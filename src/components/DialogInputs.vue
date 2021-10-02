@@ -3,7 +3,8 @@
         <div class="inputs-container__header">Ваша зарплата в месяц</div>
         <v-text-field
             dense
-            v-model="wage"
+            v-model.lazy="wage"
+            v-money="money"
             class="inputs-container__input"
             placeholder="Введите данные"
             solo
@@ -21,35 +22,30 @@
             </span>
             <DialogCheckbox v-for="item, index in result" :key="index" :price="item" :day="index + 1"/>
         </div>
-        <div class="inputs-container__chips-block">
+        <div class="inputs-container__decreasing">
             <span>Что уменьшаем?</span>
-            <span class="inputs-container__chips-block__first-chip" @click="isActive = !isActive">
-               <Chip 
-                    :text="'Платеж'"
-                    :active="isActive"
-                /> 
-            </span>
-            <span @click="isActive = !isActive">
-               <Chip 
-                    :text="'Срок'"
-                    :active="!isActive"
-                /> 
-            </span>
+            <div class="inputs-container__chips-block">
+                <span @click="isActive = !isActive">
+                    <Chip 
+                        :text="'Платеж'"
+                        :active="isActive"
+                    /> 
+                </span>
+                <span @click="isActive = !isActive">
+                    <Chip 
+                        :text="'Срок'"
+                        :active="!isActive"
+                    /> 
+                </span>
+            </div>
         </div>
-        <v-btn
-            class="inputs-container__footer-button button"
-            block
-            plain
-            height="50px"
-        >
-            Добавить
-        </v-btn>
     </div>
 </template>
 
 <script>
-import DialogCheckbox from "./DialogCheckbox.vue"
-import Chip from "../UI/Chip.vue"
+import DialogCheckbox from "@components/DialogCheckbox.vue"
+import Chip from "@UI/Chip.vue"
+import {VMoney} from 'v-money'
 
 export default {
   name: 'DialogInputs',
@@ -57,26 +53,39 @@ export default {
     rules: {
         number: (value) => {
             return (
-                (!Number.isNaN(value) && value > -1) ||
-                'Значение должно быть положительным целым числом и больше.'
+                +value.slice(0, -2).replaceAll(' ', '') >= 5000  || +value.slice(0, -2).replaceAll(' ', '') === 0 ||
+                'Значение должно быть положительным целым числом и составлять не менее 5 000 рублей.'
             );
         },
     },
-    wage: null,
+    wage: '',
+    money: {
+        thousands: ' ',
+        suffix: ' ₽',
+        precision: 0,
+    },
     result: [],
     isCalculated: false,
     isActive: false
   }),
+  directives: {money: VMoney},
   components: {
     DialogCheckbox, Chip
   },
   methods: {
     calculate () {
         this.result = [];
-        this.calc();
-        this.isCalculated = true;
+        if(this.formatWage(this.wage) >= 5000) {
+            this.calc();
+            this.isCalculated = true;
+        } else {
+            this.isCalculated = false;
+        }
     },
-    calc(max = 260000, tax = this.wage * 12 * 0.13) { 
+    formatWage (value) {
+        return +value.slice(0, -2).replaceAll(' ', '')
+    },
+    calc(max = 260000, tax = this.formatWage(this.wage) * 12 * 0.13) { 
         if(max > tax) {
             this.result.push(tax)
             let newMax = max - tax
@@ -84,7 +93,7 @@ export default {
         } else {
             this.result.push(max)
         }
-    }
+    },
   }
 };
 </script>
@@ -101,12 +110,23 @@ export default {
             color: #EA0029;
             cursor: pointer;
         }
-        &__chips-block {
+        &__decreasing {
             margin-top: 18px;
             display: flex;
             align-items: center;
-            &__first-chip {
-                margin: 0 16px 0 24px;
+            gap: 32px;
+            margin-bottom: 40px;
+            @media screen and (max-width: 600px) {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 24px;
+            }
+        }
+        &__chips-block {
+            display: flex;
+            gap: 8px;
+            @media screen and (max-width: 600px) {
+                gap: 0;
             }
         }
     }

@@ -12,6 +12,11 @@
     text-transform: unset;
 }
 
+.card {
+    display: flex;
+    flex-direction: column;
+}
+
 .wrapper-button {
     background-color: unset !important;
     border: solid 1px white;
@@ -22,7 +27,8 @@
 }
 .v-dialog {
     border-radius: 30px !important;
-    width: 40%;
+    width: 33%;
+    max-width: 600px;
 }
 
 .inputs-container__input .v-input__slot {
@@ -34,7 +40,9 @@
 }
 
 .inputs-container__footer-button {
-    margin-top: 24px;
+    margin-top: auto;
+    margin-bottom: 8px;
+    flex-grow: 0;
     background: linear-gradient(255.35deg, #DC3131 0.83%, rgba(255, 79, 79, 0) 108.93%), #FF5E56 !important;
     font-weight: 400;
     box-shadow: 0px 0px 24px rgba(234, 0, 41, 0.33);
@@ -53,5 +61,8 @@
     .v-dialog {
         width: 100%;
         border-radius: unset !important;
+    }
+    .inputs-container__footer-button {
+        margin-bottom: 0;
     }
 }
